@@ -7,4 +7,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="NCoreAssignmentApp.Readers\**" />
+    <Compile Remove="NCoreAssignmentApp.Tests\**" />
+    <EmbeddedResource Remove="NCoreAssignmentApp.Readers\**" />
+    <EmbeddedResource Remove="NCoreAssignmentApp.Tests\**" />
+    <None Remove="NCoreAssignmentApp.Readers\**" />
+    <None Remove="NCoreAssignmentApp.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="NCoreAssignmentApp.Readers\NCoreAssignmentApp.Readers.csproj" />
+  </ItemGroup>
+
 </Project>

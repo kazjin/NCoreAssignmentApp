@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCoreAssignmentApp", "NCoreAssignmentApp.csproj", "{95475F35-9D6D-4CC0-A73D-B1BC3F6871CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCoreAssignmentApp", "NCoreAssignmentApp.csproj", "{95475F35-9D6D-4CC0-A73D-B1BC3F6871CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCoreAssignmentApp.Readers", "NCoreAssignmentApp.Readers\NCoreAssignmentApp.Readers.csproj", "{859C24ED-97CE-4C3C-A7B0-DD940EA767AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCoreAssignmentApp.Tests", "NCoreAssignmentApp.Tests\NCoreAssignmentApp.Tests.csproj", "{B27B7119-9DC8-4A65-9A4C-A33A8565109D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{95475F35-9D6D-4CC0-A73D-B1BC3F6871CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95475F35-9D6D-4CC0-A73D-B1BC3F6871CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95475F35-9D6D-4CC0-A73D-B1BC3F6871CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859C24ED-97CE-4C3C-A7B0-DD940EA767AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859C24ED-97CE-4C3C-A7B0-DD940EA767AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859C24ED-97CE-4C3C-A7B0-DD940EA767AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859C24ED-97CE-4C3C-A7B0-DD940EA767AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
