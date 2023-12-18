@@ -20,4 +20,10 @@
     <ProjectReference Include="NCoreAssignmentApp.Readers\NCoreAssignmentApp.Readers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Ncore_programming_exercise.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
