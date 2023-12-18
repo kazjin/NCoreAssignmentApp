@@ -29,5 +29,13 @@ namespace NCoreAssignmentApp.Readers
             }
             return builder.ToString();
         }
+
+        public async Task<string> ReadEncryptedContent(string filePath)
+        {
+            var encryptedText = await ReadContent(filePath);
+            var charArray = encryptedText.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
     }
 }

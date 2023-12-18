@@ -34,5 +34,10 @@ namespace NCoreAssignmentApp.Readers
 
             return builder.ToString();
         }
+
+        public Task<string> ReadEncryptedContent(string filePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
