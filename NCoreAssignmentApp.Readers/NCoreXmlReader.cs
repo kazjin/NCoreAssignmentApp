@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NCoreAssignmentApp.Readers.EncryptionEnum;
+using System.Text;
 using System.Xml;
 
 namespace NCoreAssignmentApp.Readers
@@ -33,6 +34,16 @@ namespace NCoreAssignmentApp.Readers
             }
 
             return builder.ToString();
+        }
+
+        public Task<string> ReadEncryptedContent(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> ReadEncryptedContent(string filePath, EncryptionType encryptionType)
+        {
+            throw new NotImplementedException();
         }
     }
 }
