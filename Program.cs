@@ -1,4 +1,5 @@
 ﻿using NCoreAssignmentApp.Readers;
+using NCoreAssignmentApp.Readers.EncryptionEnum;
 
 namespace NCoreAssignmentApp
 {
@@ -6,19 +7,57 @@ namespace NCoreAssignmentApp
     {
         private static NCoreTextReader? _nCoreTextReader;
 
-        static async Task Main(string[] args)
+        static async Task Main()
         {
-            Console.WriteLine("Hello, welcome to NCoreAssignmentApp!");
+            Console.WriteLine("\nHello, welcome to NCoreAssignmentApp!\n");
 
             var chosenFileTypeKey = ShowFileTypeMenu();
-            var isEncrypted = ShowEncryptedMenu();
+            var isEncrypted = IsEncryptedMenu();
+            EncryptionType selectedEncryption = EncryptionType.None;
 
-            await ProcessChoice(chosenFileTypeKey, isEncrypted);
+            if (isEncrypted)
+            {
+                selectedEncryption = SelectEncryptionMenu();
+            }
+
+            await ProcessChoice(chosenFileTypeKey, selectedEncryption);
+
+            await RebootApplication();
         }
 
-        private static bool ShowEncryptedMenu()
+        private static async Task RebootApplication()
         {
-            Console.WriteLine("Is the file encrypted? Type Y or N");
+            await Main();
+        }
+
+        private static EncryptionType SelectEncryptionMenu()
+        {
+            Console.WriteLine("\nChoose the encryption you want to use:");
+            Console.WriteLine($"1. {EncryptionType.Reverse}");
+            Console.WriteLine($"2. {EncryptionType.Zero}");
+
+            var choiceKey = Console.ReadKey();
+
+            switch (choiceKey.Key)
+            {
+                case ConsoleKey.NumPad1:
+                case ConsoleKey.D1:
+                    return EncryptionType.Reverse;
+                case ConsoleKey.NumPad2:
+                case ConsoleKey.D2:
+                    return EncryptionType.Zero;
+                default:
+                    Console.WriteLine("\nInput is not valid. Try again");
+                    SelectEncryptionMenu();
+                    break;
+            }
+
+            return EncryptionType.None;
+        }
+
+        private static bool IsEncryptedMenu()
+        {
+            Console.WriteLine("\nIs the file encrypted? Type Y or N");
             Console.WriteLine("Y: yes");
             Console.WriteLine("N: no");
             var choiceKey = Console.ReadKey();
@@ -26,9 +65,9 @@ namespace NCoreAssignmentApp
             return choiceKey.Key == ConsoleKey.Y;
         }
 
-        private static async Task ProcessChoice(ConsoleKeyInfo chosenKey, bool isEncrypted)
+        private static async Task ProcessChoice(ConsoleKeyInfo chosenKey, EncryptionType encryptionType)
         {
-            string encryptedString = isEncrypted ? "encrypted " : "";
+            string encryptedString = encryptionType != EncryptionType.None ? "encrypted " : "";
             string filePath;
             switch (chosenKey.Key)
             {
@@ -36,7 +75,7 @@ namespace NCoreAssignmentApp
                 case ConsoleKey.D1:
                     Console.WriteLine($"\nSelected to read a {encryptedString}text file");
                     filePath = RequestFilePath();
-                    await ReadTextAndWriteToConsole(filePath, isEncrypted);
+                    await ReadTextAndWriteToConsole(filePath, encryptionType);
                     break;
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2:
@@ -47,8 +86,7 @@ namespace NCoreAssignmentApp
                 default:
                     Console.WriteLine("\nInput is not valid. Try again");
                     chosenKey = ShowFileTypeMenu();
-                    isEncrypted = ShowEncryptedMenu();
-                    await ProcessChoice(chosenKey, isEncrypted);
+                    await ProcessChoice(chosenKey, encryptionType);
                     break;
             }
         }
@@ -75,18 +113,18 @@ namespace NCoreAssignmentApp
             return filePath;
         }
 
-        private static async Task ReadTextAndWriteToConsole(string filePath, bool isEncrypted)
+        private static async Task ReadTextAndWriteToConsole(string filePath, EncryptionType encryptionType)
         {
             _nCoreTextReader ??= new NCoreTextReader();
 
             string content;
-            if (isEncrypted)
+            if (encryptionType == EncryptionType.None)
             {
-                content = await _nCoreTextReader.ReadEncryptedContent(filePath);
+                content = await _nCoreTextReader.ReadContent(filePath);
             }
             else
             {
-                content = await _nCoreTextReader.ReadContent(filePath);
+                content = await _nCoreTextReader.ReadEncryptedContent(filePath, encryptionType);
             }
 
 

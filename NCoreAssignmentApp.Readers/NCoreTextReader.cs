@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NCoreAssignmentApp.Readers.EncryptionEnum;
+using System.Text;
 
 namespace NCoreAssignmentApp.Readers
 {
@@ -30,12 +31,18 @@ namespace NCoreAssignmentApp.Readers
             return builder.ToString();
         }
 
-        public async Task<string> ReadEncryptedContent(string filePath)
+        public async Task<string> ReadEncryptedContent(string filePath, EncryptionType encryptionType)
         {
             var encryptedText = await ReadContent(filePath);
-            var charArray = encryptedText.ToCharArray();
-            Array.Reverse(charArray);
-            return new string(charArray);
+
+            if (encryptionType == EncryptionType.Reverse)
+            {
+                var charArray = encryptedText.ToCharArray();
+                Array.Reverse(charArray);
+                return new string(charArray);
+            }
+
+            return encryptedText.Replace("0", string.Empty);
         }
     }
 }
