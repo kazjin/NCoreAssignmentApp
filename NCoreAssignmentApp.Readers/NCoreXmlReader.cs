@@ -22,10 +22,10 @@ namespace NCoreAssignmentApp.Readers
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            builder.Append($"\n{reader.Name} ");
+                            builder.Append($"\n{reader.Name}:");
                             break;
                         case XmlNodeType.Text:
-                            builder.Append($"text node: {await reader.GetValueAsync()}");
+                            builder.Append($" {await reader.GetValueAsync()}");
                             break;
                         default:
                             break;
