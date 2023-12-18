@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\NCoreAssignmentApp.Authenication\NCoreAssignmentApp.Authentication.csproj" />
     <ProjectReference Include="..\NCoreAssignmentApp.Readers\NCoreAssignmentApp.Readers.csproj" />
   </ItemGroup>
 
