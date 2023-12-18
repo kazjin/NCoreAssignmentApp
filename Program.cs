@@ -1,4 +1,6 @@
-﻿using NCoreAssignmentApp.Readers;
+﻿using NCoreAssignmentApp.Authenication;
+using NCoreAssignmentApp.Authentication;
+using NCoreAssignmentApp.Readers;
 using NCoreAssignmentApp.Readers.EncryptionEnum;
 
 namespace NCoreAssignmentApp
@@ -6,6 +8,7 @@ namespace NCoreAssignmentApp
     internal class Program
     {
         private static NCoreTextReader? _nCoreTextReader;
+        private static AuthenticationService? _authenticationService;
 
         static async Task Main()
         {
@@ -74,13 +77,16 @@ namespace NCoreAssignmentApp
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1:
                     Console.WriteLine($"\nSelected to read a {encryptedString}text file");
-                    filePath = RequestFilePath();
+                    filePath = RequestTextFilePath();
                     await ReadTextAndWriteToConsole(filePath, encryptionType);
                     break;
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2:
                     Console.WriteLine("\nSelected to read a xml file");
-                    filePath = RequestFilePath();
+
+                    HandleRoleSelection(encryptionType);
+
+                    filePath = RequestXmlFilePath();
                     await ReadXmlAndWriteToConsole(filePath);
                     break;
                 default:
@@ -89,6 +95,65 @@ namespace NCoreAssignmentApp
                     await ProcessChoice(chosenKey, encryptionType);
                     break;
             }
+        }
+
+        private static void HandleRoleSelection(EncryptionType encryptionType)
+        {
+            _authenticationService ??= new AuthenticationService();
+
+            var role = SelectRoleMenu();
+            var useRealImplementation = RealRolesMenu();
+            var isEncrypted = encryptionType != EncryptionType.None;
+            var canRead = _authenticationService.CanReadXmlFile(role, isEncrypted, useRealImplementation);
+            while (!canRead)
+            {
+                Console.WriteLine($"\nWARNING: The role {role} does not have permission to read the file. Select another role:");
+
+                role = SelectRoleMenu();
+                useRealImplementation = RealRolesMenu();
+                canRead = _authenticationService.CanReadXmlFile(role, isEncrypted, useRealImplementation);
+            }
+        }
+
+        private static bool RealRolesMenu()
+        {
+            Console.WriteLine("\nDo you want to use a real implementation?:");
+
+            Console.WriteLine("Y: yes");
+            Console.WriteLine("N: no");
+            var choiceKey = Console.ReadKey();
+
+            return choiceKey.Key == ConsoleKey.Y;
+        }
+
+        private static RoleType SelectRoleMenu()
+        {
+            Console.WriteLine("\nSelect the role you want to use:");
+
+            Console.WriteLine($"1. {RoleType.User} (can read normal not encrypted files)");
+            Console.WriteLine($"2. {RoleType.Manager} (can read also encrypted files)");
+            Console.WriteLine($"3. {RoleType.Administration} (can read all)");
+            var choiceKey = Console.ReadKey();
+
+            switch (choiceKey.Key)
+            {
+                case ConsoleKey.NumPad1:
+                case ConsoleKey.D1:
+                    return RoleType.User;
+                case ConsoleKey.NumPad2:
+                case ConsoleKey.D2:
+                    return RoleType.Manager;
+                case ConsoleKey.NumPad3:
+                case ConsoleKey.D3:
+                    return RoleType.Administration;
+                case ConsoleKey.NumPad4:
+                default:
+                    Console.WriteLine("\nInput is not valid. Try again");
+                    SelectRoleMenu();
+                    break;
+            }
+
+            return RoleType.User;
         }
 
         private static ConsoleKeyInfo ShowFileTypeMenu()
@@ -100,13 +165,26 @@ namespace NCoreAssignmentApp
             return choiceKey;
         }
 
-        private static string RequestFilePath()
+        private static string RequestTextFilePath()
         {
             var filePath = string.Empty;
 
-            while (string.IsNullOrEmpty(filePath))
+            while (string.IsNullOrEmpty(filePath) || !filePath.Contains(".txt"))
             {
-                Console.WriteLine("Insert in the next line the full path of the file:");
+                Console.WriteLine("\nInsert in the next line the full path of the file:");
+                filePath = Console.ReadLine();
+            }
+
+            return filePath;
+        }
+
+        private static string RequestXmlFilePath()
+        {
+            var filePath = string.Empty;
+
+            while (string.IsNullOrEmpty(filePath) || !filePath.Contains(".xml"))
+            {
+                Console.WriteLine("\nInsert in the next line the full path of the file:");
                 filePath = Console.ReadLine();
             }
 
