@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCoreAssignmentApp.Readers"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCoreAssignmentApp.Tests", "NCoreAssignmentApp.Tests\NCoreAssignmentApp.Tests.csproj", "{B27B7119-9DC8-4A65-9A4C-A33A8565109D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCoreAssignmentApp.Authentication", "..\NCoreAssignmentApp.Authenication\NCoreAssignmentApp.Authentication.csproj", "{BADC63ED-1CD9-485B-AC9E-C4B72D7DE07F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NCoreAssignmentApp.Authentication", "NCoreAssignmentApp.Authentication\NCoreAssignmentApp.Authentication.csproj", "{12FCBFB3-41BA-47BE-971D-4D05408C4BC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B27B7119-9DC8-4A65-9A4C-A33A8565109D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BADC63ED-1CD9-485B-AC9E-C4B72D7DE07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BADC63ED-1CD9-485B-AC9E-C4B72D7DE07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BADC63ED-1CD9-485B-AC9E-C4B72D7DE07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BADC63ED-1CD9-485B-AC9E-C4B72D7DE07F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FCBFB3-41BA-47BE-971D-4D05408C4BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FCBFB3-41BA-47BE-971D-4D05408C4BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FCBFB3-41BA-47BE-971D-4D05408C4BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FCBFB3-41BA-47BE-971D-4D05408C4BC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
