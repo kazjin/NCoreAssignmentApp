@@ -3,7 +3,7 @@ using System.Text;
 
 namespace NCoreAssignmentApp.Readers
 {
-    public class NCoreTextReader : IReader
+    public class NCoreTextReader
     {
         public NCoreTextReader()
         {

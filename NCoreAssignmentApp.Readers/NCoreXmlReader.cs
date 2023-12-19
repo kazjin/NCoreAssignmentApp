@@ -1,19 +1,27 @@
 ﻿using NCoreAssignmentApp.Readers.EncryptionEnum;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
 namespace NCoreAssignmentApp.Readers
 {
-    public class NCoreXmlReader : IReader
+    public class NCoreXmlReader
     {
-        public async Task<string> ReadContent(string filePath)
+        public class XmlReaderModel
+        {
+            public List<string> XmlTags { get; set; } = [];
+            public List<string> XmlValues { get; set; } = [];
+        }
+
+
+        public async Task<XmlReaderModel> ReadContent(string filePath)
         {
             XmlReaderSettings settings = new()
             {
                 Async = true
             };
 
-            StringBuilder builder = new();
+            XmlReaderModel model = new();
 
             using (XmlReader reader = XmlReader.Create(filePath, settings))
             {
@@ -22,10 +30,10 @@ namespace NCoreAssignmentApp.Readers
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            builder.Append($"\n{reader.Name}:");
+                            model.XmlTags.Add($"\n{reader.Name}:");
                             break;
                         case XmlNodeType.Text:
-                            builder.Append($" {await reader.GetValueAsync()}");
+                            model.XmlValues.Add($"{await reader.GetValueAsync()}");
                             break;
                         default:
                             break;
@@ -33,17 +41,42 @@ namespace NCoreAssignmentApp.Readers
                 }
             }
 
-            return builder.ToString();
+            return model;
         }
 
-        public Task<string> ReadEncryptedContent(string filePath)
+        public async Task<XmlReaderModel> ReadEncryptedContent(string filePath, EncryptionType encryptionType)
         {
-            throw new NotImplementedException();
+            var model = await ReadContent(filePath);
+
+            if (encryptionType == EncryptionType.Reverse)
+            {
+                return DecryptReverseEncryption(model);
+            }
+
+            return DecryptZeroEncrypion(model);
         }
 
-        public Task<string> ReadEncryptedContent(string filePath, EncryptionType encryptionType)
+        private static XmlReaderModel DecryptReverseEncryption(XmlReaderModel model)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < model.XmlValues.Count; i++)
+            {
+                var charArray = model.XmlValues[i].ToCharArray();
+                Array.Reverse(charArray);
+                model.XmlValues[i] = new string(charArray);
+            }
+
+            return model;
+        }
+
+        private static XmlReaderModel DecryptZeroEncrypion(XmlReaderModel model)
+        {
+            for (int i = 0; i < model.XmlValues.Count; i++)
+            {
+                var zeroed = model.XmlValues[i];
+                model.XmlValues[i] = zeroed.Replace("0", string.Empty); ;
+            }
+
+            return model;
         }
     }
 }

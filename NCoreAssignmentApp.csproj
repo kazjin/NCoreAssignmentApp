@@ -22,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\zero-xml-contents.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ncore_programming_exercise.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
