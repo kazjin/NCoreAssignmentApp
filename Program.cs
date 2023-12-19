@@ -2,6 +2,9 @@
 using NCoreAssignmentApp.Authentication;
 using NCoreAssignmentApp.Readers;
 using NCoreAssignmentApp.Readers.EncryptionEnum;
+using System.Collections.Generic;
+using System.Text;
+using static NCoreAssignmentApp.Readers.NCoreXmlReader;
 
 namespace NCoreAssignmentApp
 {
@@ -9,6 +12,7 @@ namespace NCoreAssignmentApp
     {
         private static NCoreTextReader? _nCoreTextReader;
         private static AuthenticationService? _authenticationService;
+        private static NCoreXmlReader _nCoreXmlReader;
 
         static async Task Main()
         {
@@ -77,6 +81,7 @@ namespace NCoreAssignmentApp
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1:
                     Console.WriteLine($"\nSelected to read a {encryptedString}text file");
+
                     filePath = RequestTextFilePath();
                     await ReadTextAndWriteToConsole(filePath, encryptionType);
                     break;
@@ -87,7 +92,7 @@ namespace NCoreAssignmentApp
                     HandleRoleSelection(encryptionType);
 
                     filePath = RequestXmlFilePath();
-                    await ReadXmlAndWriteToConsole(filePath);
+                    await ReadXmlAndWriteToConsole(filePath, encryptionType);
                     break;
                 default:
                     Console.WriteLine("\nInput is not valid. Try again");
@@ -210,13 +215,34 @@ namespace NCoreAssignmentApp
             Console.WriteLine(content);
         }
 
-        private static async Task ReadXmlAndWriteToConsole(string filePath)
+        private static async Task ReadXmlAndWriteToConsole(string filePath, EncryptionType encryptionType)
         {
-            var nCoreTextReader = new NCoreXmlReader();
-            var content = await nCoreTextReader.ReadContent(filePath);
+            _nCoreXmlReader ??= new NCoreXmlReader();
 
+            XmlReaderModel xmContentTuple;
+            if (encryptionType == EncryptionType.None)
+            {
+                xmContentTuple = await _nCoreXmlReader.ReadContent(filePath);
+            }
+            else
+            {
+                xmContentTuple = await _nCoreXmlReader.ReadEncryptedContent(filePath, encryptionType);
+            }
+
+            OutputReadableXmlContent(xmContentTuple);
+        }
+
+        private static void OutputReadableXmlContent(XmlReaderModel xmContentTuple)
+        {
             Console.WriteLine("The contents of the file:");
-            Console.WriteLine(content);
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < xmContentTuple.XmlValues.Count; i++)
+            {
+                builder.Append($"{xmContentTuple.XmlTags[i]}: {xmContentTuple.XmlValues[i]}");
+            }
+
+            Console.WriteLine(builder.ToString());
         }
     }
 }
