@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\json-zero.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Files\json-reversed.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
