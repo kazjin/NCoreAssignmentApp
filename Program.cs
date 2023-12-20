@@ -19,8 +19,7 @@ namespace NCoreAssignmentApp
             Console.WriteLine("\nHello, welcome to NCoreAssignmentApp!\n");
 
             var chosenFileTypeKey = ShowFileTypeMenu();
-            var isJsonFile = chosenFileTypeKey.Key == ConsoleKey.NumPad3 || chosenFileTypeKey.Key == ConsoleKey.D3;
-            var isEncrypted = IsEncryptedMenu(skip: isJsonFile);
+            var isEncrypted = IsEncryptedMenu();
             EncryptionType selectedEncryption = EncryptionType.None;
 
             if (isEncrypted)
@@ -63,10 +62,8 @@ namespace NCoreAssignmentApp
             return EncryptionType.None;
         }
 
-        private static bool IsEncryptedMenu(bool skip)
+        private static bool IsEncryptedMenu()
         {
-            if (skip) return false;
-
             Console.WriteLine("\nIs the file encrypted? Type Y or N");
             Console.WriteLine("Y: yes");
             Console.WriteLine("N: no");
@@ -104,7 +101,7 @@ namespace NCoreAssignmentApp
                     Console.WriteLine("\nSelected to read a json file");
 
                     filePath = RequestJsonFilePath();
-                    await ReadJsonAndWriteToConsole(filePath);
+                    await ReadJsonAndWriteToConsole(filePath, encryptionType);
                     break;
                 default:
                     Console.WriteLine("\nInput is not valid. Try again");
@@ -258,13 +255,22 @@ namespace NCoreAssignmentApp
             OutputReadableXmlContent(xmContentTuple);
         }
 
-        private static async Task ReadJsonAndWriteToConsole(string filePath)
+        private static async Task ReadJsonAndWriteToConsole(string filePath, EncryptionType encryptionType)
         {
             _nCoreJsonReader ??= new NCoreJsonReader();
 
-            var result = await _nCoreJsonReader.ReadContent(filePath);
+            string result;
+            if (encryptionType == EncryptionType.None)
+            {
+                result = await _nCoreJsonReader.ReadContent(filePath);
+            }
+            else
+            { 
+                result = await _nCoreJsonReader.ReadEncryptedContent(filePath, encryptionType);
+            }
 
-            Console.WriteLine("{0}", result);
+
+                Console.WriteLine("{0}", result);
         }
 
         private static void OutputReadableXmlContent(XmlReaderModel xmContentTuple)

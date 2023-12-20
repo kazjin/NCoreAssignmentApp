@@ -13,6 +13,7 @@ namespace NCoreAssignmentApp.Tests
         private readonly string ReverseEncryptedXmlFileName = "xml-contents-reversed.xml";
         private readonly string ZeroEncryptedXmlFileName = "zero-xml-contents.xml";
         private readonly string JsonFileName = "json.json";
+        private readonly string ReversedJsonFileName = "json-reversed.json";
 
         [Fact]
         public async void GivenTextFile_WhenTextReaderReads_ThenShouldReturnContents()
@@ -45,7 +46,7 @@ namespace NCoreAssignmentApp.Tests
         }
 
         [Fact]
-        public async void GivenXmlFile_WhenXmlReaderReads_ThenShouldOutpoutContents()
+        public async void GivenXmlFile_WhenXmlReaderReads_ThenShouldOutputContents()
         {
             var xmlReader = new NCoreXmlReader();
 
@@ -55,7 +56,7 @@ namespace NCoreAssignmentApp.Tests
         }
 
         [Fact]
-        public async void GivenReverseEncryptedXmlFile_WhenXmlReaderReads_ThenShouldOutpoutDecryptedContents()
+        public async void GivenReverseEncryptedXmlFile_WhenXmlReaderReads_ThenShouldOutputDecryptedContents()
         {
             var xmlReader = new NCoreXmlReader();
 
@@ -65,7 +66,7 @@ namespace NCoreAssignmentApp.Tests
         }
 
         [Fact]
-        public async void GivenZeroEncryptedXmlFile_WhenXmlReaderReads_ThenShouldOutpoutDecryptedContents()
+        public async void GivenZeroEncryptedXmlFile_WhenXmlReaderReads_ThenShouldOutputDecryptedContents()
         {
             var xmlReader = new NCoreXmlReader();
 
@@ -75,7 +76,7 @@ namespace NCoreAssignmentApp.Tests
         }
 
         [Fact]
-        public async void GivenJsonFile_WhenJsonReaderReads_ThenShouldOutpoutContents()
+        public async void GivenJsonFile_WhenJsonReaderReads_ThenShouldOutputContents()
         {
             var jsonReader = new NCoreJsonReader();
 
@@ -84,5 +85,14 @@ namespace NCoreAssignmentApp.Tests
             Assert.Contains("Standard Generalized Markup Language", result);
         }
 
+        [Fact]
+        public async void GivenReverseEncryptedJsonFile_WhenJsonReaderEncryptReads_ThenShouldOutputContents()
+        {
+            var jsonReader = new NCoreJsonReader();
+
+            var result = await jsonReader.ReadEncryptedContent(Path.Combine(TestFilesPath, ReversedJsonFileName), EncryptionType.Reverse);
+
+            Assert.Contains("Standard Generalized Markup Language", result);
+        }
     }
 }
