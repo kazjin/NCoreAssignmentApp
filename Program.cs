@@ -82,6 +82,8 @@ namespace NCoreAssignmentApp
                 case ConsoleKey.D1:
                     Console.WriteLine($"\nSelected to read a {encryptedString}text file");
 
+                    HandleRoleSelection(encryptionType);
+
                     filePath = RequestTextFilePath();
                     await ReadTextAndWriteToConsole(filePath, encryptionType);
                     break;
@@ -109,14 +111,14 @@ namespace NCoreAssignmentApp
             var role = SelectRoleMenu();
             var useRealImplementation = RealRolesMenu();
             var isEncrypted = encryptionType != EncryptionType.None;
-            var canRead = _authenticationService.CanReadXmlFile(role, isEncrypted, useRealImplementation);
+            var canRead = _authenticationService.CanReadFile(role, isEncrypted, useRealImplementation);
             while (!canRead)
             {
                 Console.WriteLine($"\nWARNING: The role {role} does not have permission to read the file. Select another role:");
 
                 role = SelectRoleMenu();
                 useRealImplementation = RealRolesMenu();
-                canRead = _authenticationService.CanReadXmlFile(role, isEncrypted, useRealImplementation);
+                canRead = _authenticationService.CanReadFile(role, isEncrypted, useRealImplementation);
             }
         }
 

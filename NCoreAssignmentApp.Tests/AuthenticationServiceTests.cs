@@ -15,7 +15,7 @@ namespace NCoreAssignmentApp.Tests
         [Fact]
         public void GivenRoleUserAndFileIsEncrypted_WhenUsingSimpleImplementation_ThenShouldNotAllowToRead()
         {
-            var canRead = _sut.CanReadXmlFile(RoleType.User, true);
+            var canRead = _sut.CanReadFile(RoleType.User, true);
 
             Assert.False(canRead);
         }
@@ -23,7 +23,7 @@ namespace NCoreAssignmentApp.Tests
         [Fact]
         public void GivenRoleUserAndFileNormal_WhenUsingSimpleImplementation_ThenShouldAllowToRead()
         {
-            var canRead = _sut.CanReadXmlFile(RoleType.User, false);
+            var canRead = _sut.CanReadFile(RoleType.User, false);
 
             Assert.True(canRead);
         }
@@ -33,7 +33,7 @@ namespace NCoreAssignmentApp.Tests
         [InlineData(RoleType.Administration)]
         public void GivenRoleManagerOrAdminAndFileIsEncrypted_WhenUsingSimpleImplementation_ThenShouldAllowToRead(RoleType roleType)
         {
-            var canRead = _sut.CanReadXmlFile(roleType, true);
+            var canRead = _sut.CanReadFile(roleType, true);
 
             Assert.True(canRead);
         }
