@@ -7,7 +7,7 @@ namespace NCoreAssignmentApp.Authentication
     {
         public AuthenticationService() { }
 
-        public bool CanReadXmlFile(RoleType roleType, bool isEncrypted, bool useRealImplementation = false)
+        public bool CanReadFile(RoleType roleType, bool isEncrypted, bool useRealImplementation = false)
         {
             if(useRealImplementation) 
             {
