@@ -100,6 +100,8 @@ namespace NCoreAssignmentApp
                 case ConsoleKey.D3:
                     Console.WriteLine("\nSelected to read a json file");
 
+                    HandleRoleSelection(encryptionType);
+
                     filePath = RequestJsonFilePath();
                     await ReadJsonAndWriteToConsole(filePath, encryptionType);
                     break;
