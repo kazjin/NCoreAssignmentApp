@@ -2,7 +2,6 @@
 using NCoreAssignmentApp.Authentication;
 using NCoreAssignmentApp.Readers;
 using NCoreAssignmentApp.Readers.EncryptionEnum;
-using System.Collections.Generic;
 using System.Text;
 using static NCoreAssignmentApp.Readers.NCoreXmlReader;
 
@@ -12,14 +11,16 @@ namespace NCoreAssignmentApp
     {
         private static NCoreTextReader? _nCoreTextReader;
         private static AuthenticationService? _authenticationService;
-        private static NCoreXmlReader _nCoreXmlReader;
+        private static NCoreXmlReader? _nCoreXmlReader;
+        private static NCoreJsonReader? _nCoreJsonReader;
 
         static async Task Main()
         {
             Console.WriteLine("\nHello, welcome to NCoreAssignmentApp!\n");
 
             var chosenFileTypeKey = ShowFileTypeMenu();
-            var isEncrypted = IsEncryptedMenu();
+            var isJsonFile = chosenFileTypeKey.Key == ConsoleKey.NumPad3 || chosenFileTypeKey.Key == ConsoleKey.D3;
+            var isEncrypted = IsEncryptedMenu(skip: isJsonFile);
             EncryptionType selectedEncryption = EncryptionType.None;
 
             if (isEncrypted)
@@ -62,8 +63,10 @@ namespace NCoreAssignmentApp
             return EncryptionType.None;
         }
 
-        private static bool IsEncryptedMenu()
+        private static bool IsEncryptedMenu(bool skip)
         {
+            if (skip) return false;
+
             Console.WriteLine("\nIs the file encrypted? Type Y or N");
             Console.WriteLine("Y: yes");
             Console.WriteLine("N: no");
@@ -95,6 +98,13 @@ namespace NCoreAssignmentApp
 
                     filePath = RequestXmlFilePath();
                     await ReadXmlAndWriteToConsole(filePath, encryptionType);
+                    break;
+                case ConsoleKey.NumPad3:
+                case ConsoleKey.D3:
+                    Console.WriteLine("\nSelected to read a json file");
+
+                    filePath = RequestJsonFilePath();
+                    await ReadJsonAndWriteToConsole(filePath);
                     break;
                 default:
                     Console.WriteLine("\nInput is not valid. Try again");
@@ -168,6 +178,7 @@ namespace NCoreAssignmentApp
             Console.WriteLine("Choose which file type to read:");
             Console.WriteLine("1. text file");
             Console.WriteLine("2. xml file");
+            Console.WriteLine("3. json file");
             var choiceKey = Console.ReadKey();
             return choiceKey;
         }
@@ -178,7 +189,7 @@ namespace NCoreAssignmentApp
 
             while (string.IsNullOrEmpty(filePath) || !filePath.Contains(".txt"))
             {
-                Console.WriteLine("\nInsert in the next line the full path of the file:");
+                Console.WriteLine("\nInsert in the next line the full path of the text file:");
                 filePath = Console.ReadLine();
             }
 
@@ -191,7 +202,20 @@ namespace NCoreAssignmentApp
 
             while (string.IsNullOrEmpty(filePath) || !filePath.Contains(".xml"))
             {
-                Console.WriteLine("\nInsert in the next line the full path of the file:");
+                Console.WriteLine("\nInsert in the next line the full path of the xml file:");
+                filePath = Console.ReadLine();
+            }
+
+            return filePath;
+        }
+
+        private static string RequestJsonFilePath()
+        {
+            var filePath = string.Empty;
+
+            while (string.IsNullOrEmpty(filePath) || !filePath.Contains(".json"))
+            {
+                Console.WriteLine("\nInsert in the next line the full path of the json file:");
                 filePath = Console.ReadLine();
             }
 
@@ -232,6 +256,15 @@ namespace NCoreAssignmentApp
             }
 
             OutputReadableXmlContent(xmContentTuple);
+        }
+
+        private static async Task ReadJsonAndWriteToConsole(string filePath)
+        {
+            _nCoreJsonReader ??= new NCoreJsonReader();
+
+            var result = await _nCoreJsonReader.ReadContent(filePath);
+
+            Console.WriteLine("{0}", result);
         }
 
         private static void OutputReadableXmlContent(XmlReaderModel xmContentTuple)

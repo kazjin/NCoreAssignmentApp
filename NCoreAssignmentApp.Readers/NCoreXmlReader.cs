@@ -1,6 +1,4 @@
 ﻿using NCoreAssignmentApp.Readers.EncryptionEnum;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace NCoreAssignmentApp.Readers
