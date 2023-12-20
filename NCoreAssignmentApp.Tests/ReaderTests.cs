@@ -1,6 +1,5 @@
 using NCoreAssignmentApp.Readers;
 using NCoreAssignmentApp.Readers.EncryptionEnum;
-using static NCoreAssignmentApp.Readers.NCoreXmlReader;
 
 namespace NCoreAssignmentApp.Tests
 {
@@ -13,6 +12,7 @@ namespace NCoreAssignmentApp.Tests
         private readonly string XmlFileName = "xml-test.xml";
         private readonly string ReverseEncryptedXmlFileName = "xml-contents-reversed.xml";
         private readonly string ZeroEncryptedXmlFileName = "zero-xml-contents.xml";
+        private readonly string JsonFileName = "json.json";
 
         [Fact]
         public async void GivenTextFile_WhenTextReaderReads_ThenShouldReturnContents()
@@ -73,5 +73,16 @@ namespace NCoreAssignmentApp.Tests
 
             Assert.Contains("reading text content from xml file", result.XmlValues);
         }
+
+        [Fact]
+        public async void GivenJsonFile_WhenJsonReaderReads_ThenShouldOutpoutContents()
+        {
+            var jsonReader = new NCoreJsonReader();
+
+            var result = await jsonReader.ReadContent(Path.Combine(TestFilesPath, JsonFileName));
+
+            Assert.Contains("Standard Generalized Markup Language", result);
+        }
+
     }
 }
